@@ -1,10 +1,12 @@
 package org.example;
 
-// Task.java
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.logging.Logger;
 
-public class Task implements Cloneable{
+public class Task implements Cloneable {
+    private static final Logger logger = Logger.getLogger(Task.class.getName());
+
     private String description;
     private LocalTime startTime;
     private LocalTime endTime;
@@ -35,16 +37,32 @@ public class Task implements Cloneable{
         this.priority = priority;
     }
 
-    // Getters and setters
-    public String getDescription() { return description; }
-    public LocalTime getStartTime() { return startTime; }
-    public LocalTime getEndTime() { return endTime; }
-    public Priority getPriority() { return priority; }
-    public boolean isCompleted() { return completed; }
-    public void setCompleted(boolean completed) { this.completed = completed; }
+    public String getDescription() {
+        return description;
+    }
 
+    public LocalTime getStartTime() {
+        return startTime;
+    }
 
-    protected Task clone() throws CloneNotSupportedException {
+    public LocalTime getEndTime() {
+        return endTime;
+    }
+
+    public Priority getPriority() {
+        return priority;
+    }
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
+
+    @Override
+    public Task clone() throws CloneNotSupportedException {
         return (Task) super.clone();
     }
 
@@ -58,12 +76,11 @@ public class Task implements Cloneable{
 
     public boolean validateTask() {
         if (description == null || description.trim().isEmpty()) {
-            System.out.println("Description cannot be empty.");
+            logger.warning("Task validation failed: Description cannot be empty.");
             return false;
         }
-        // Check if startTime is before endTime
         if (startTime != null && endTime != null && !startTime.isBefore(endTime)) {
-            System.out.println("Start time must be before end time.");
+            logger.warning("Task validation failed: Start time must be before end time.");
             return false;
         }
         return true;

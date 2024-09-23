@@ -8,6 +8,7 @@ public class AppLogger implements TaskObserver {
     @Override
     public void update(String message) {
         logger.info("Log: " + message);
+        System.out.flush();
     }
 
 }
