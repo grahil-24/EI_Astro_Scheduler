@@ -3,8 +3,10 @@ package org.example;
 import java.util.Scanner;
 
 public class TaskSchedulerApp {
-    private static ScheduleManager manager = ScheduleManager.getInstance();
-    private static Scanner scanner = new Scanner(System.in);
+
+    private static final Scanner scanner = new Scanner(System.in);
+    private static final TaskFactory taskFactory = new ConcreteTaskFactory();
+    private static final ScheduleManager manager = ScheduleManager.getInstance(taskFactory);
 
     public static void main(String[] args) {
         manager.addObserver(new AppLogger());
@@ -35,15 +37,19 @@ public class TaskSchedulerApp {
                         break;
                     case 7:
                         System.out.println("Exiting the application. Goodbye!");
+                        System.out.flush();
                         return;
                     default:
                         System.out.println("Invalid choice. Please try again.");
+                        System.out.flush();
                 }
             } catch (Exception e) {
                 System.out.println("\033[31mError: " + e.getMessage() + "\033[0m");
+                System.out.flush();
             }
 
-            System.out.println(); // Add a blank line for readability
+            System.out.println();
+            System.out.flush();
         }
     }
 
@@ -57,11 +63,13 @@ public class TaskSchedulerApp {
         System.out.println("6. Mark a task as completed");
         System.out.println("7. Exit");
         System.out.print("Enter your choice: ");
+        System.out.flush();
     }
 
     private static int getUserChoice() {
         while (!scanner.hasNextInt()) {
             System.out.println("That's not a valid number. Please try again.");
+            System.out.flush();
             scanner.next(); // Consume the invalid input
         }
         return scanner.nextInt();
@@ -69,26 +77,31 @@ public class TaskSchedulerApp {
 
     private static void addTask() {
         manager.addTask();
+        System.out.flush();
     }
 
     private static void removeTask() {
         manager.removeTask();
+        System.out.flush();
     }
 
     private static void viewAllTasks() {
         manager.viewAllTasks();
+        System.out.flush();
     }
 
     private static void viewTasksByPriority() {
         manager.viewTasksByPriority();
+        System.out.flush();
     }
 
     private static void editTask() throws CloneNotSupportedException {
         manager.editTask();
-
+        System.out.flush();
     }
 
     private static void markTaskAsCompleted() {
         manager.markTaskAsCompleted();
+        System.out.flush();
     }
 }
